@@ -67,4 +67,4 @@ def display(grid, closed, open_list, path, title=""):
     plt.yticks(range(rows))
     plt.grid(True, color='black', linewidth=0.3, alpha=0.5) # adds lines around cells
     plt.savefig(f"{title}.png", dpi=150, bbox_inches='tight')
-    plt.show()
+    
