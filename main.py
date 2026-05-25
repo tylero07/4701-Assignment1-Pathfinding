@@ -5,9 +5,10 @@ import os
 
 def run_BFS(PATHNAME):
     grid, start, end = load_map(PATHNAME)
-    path, closed, open_list = bfs(grid, start, end)
+    path, closed, open_list, cost = bfs(grid, start, end)
     print(f"\n{PATHNAME} Path length: {len(path)}")
     print(f"{PATHNAME} States explored: {len(closed)}")
+    print(f"{PATHNAME} Cost: {cost}")
     display(grid, closed, open_list, path, title=PATHNAME)
     filename = os.path.basename(PATHNAME)        # "map1_stupid.txt"
     name = os.path.splitext(filename)[0]         # "map1_stupid"

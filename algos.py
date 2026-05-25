@@ -26,7 +26,8 @@ def bfs(grid, start, end):
         if current.position == end:
             path = retrace_path(current)
             open_list = {node.position for node in queue}
-            return path, closed, open_list
+            cost = sum(COSTS[grid[r][c]] for r, c in path)
+            return path, closed, open_list, cost
         
         for neighbor_pos in get_neighbors(grid, current.position):
             if neighbor_pos not in closed:
