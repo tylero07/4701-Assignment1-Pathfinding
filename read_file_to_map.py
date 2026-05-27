@@ -1,5 +1,6 @@
 """Function definition for loading maps from filepath and creating
     2D tuple and getting start and end points
+    basic reads the file in in by line into grid and storing start and end
 """
 def load_map(map_filepath)->tuple[list, tuple, tuple]:
     map_grid = []

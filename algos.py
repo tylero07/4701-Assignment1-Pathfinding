@@ -26,7 +26,7 @@ def bfs(grid, start, end):
         if current.position == end:
             path = retrace_path(current)
             open_list = {node.position for node in queue}
-            cost = sum(COSTS[grid[r][c]] for r, c in path)
+            cost = sum(COSTS[grid[r][c]] for r, c in path[1:])
             return path, closed, open_list, cost
         
         for neighbor_pos in get_neighbors(grid, current.position):
@@ -71,22 +71,22 @@ def ucs(grid, start, end):
 
 """Manhattan heuristic
     uses the shortest grid distance from start to finish to find 
-    a good "Price is right" guess"""
+    a good "Price is right" guess (admissable)"""
 def manhattan(pos, end):
     return abs(pos[0] - end[0]) + abs(pos[1] - end[1])
-
+"""Similar to manhattan uses hypotenusal distance
+"""
 def euclidean(pos, end):
     return ((pos[0] - end[0])**2 + (pos[1] - end[1])**2) ** 0.5
 
 """Greedy Best-First Search
-    Uses Heuristic (guess) to find the shortest path w/o worrying about cost or alternates
-    
+    Uses Heuristic (guess) to find the closest node w/o worrying about cost
     """
 def greedy(grid, start, end):
     start_node = Node(start, cost=0)
     open_queue = []
     heapq.heappush(open_queue, (manhattan(start, end), start_node))
-    
+
     closed = set()
     
     while open_queue:
@@ -95,7 +95,7 @@ def greedy(grid, start, end):
         if current.position in closed:
             continue
         closed.add(current.position)
-        
+        # claude was helpful here for some pythonic shortcuts
         if current.position == end:      
             path = retrace_path(current)
             open_list = {node.position for _, node in open_queue}
@@ -110,6 +110,11 @@ def greedy(grid, start, end):
     
     return None, closed, set()
 
+"""A-Star using manhattan heuristic
+    pushes closed to the set (will only keep 1 of each)
+    if not end finds neighbors to and adds them to the open queue
+    returns the path used, closed list, open list, and the cost of the path
+    """
 def astar_manhattan(grid, start, end):
     start_node = Node(start, cost=0)
     open_queue = []
@@ -129,6 +134,8 @@ def astar_manhattan(grid, start, end):
             open_list = {node.position for _, node in open_queue}
             return path, closed, open_list, current.cost
         
+        # Claud was a huge help in getting the kinks worked out of this section
+        # using a helper function was a game changer
         for neighbor_pos in get_neighbors(grid, current.position):
             if neighbor_pos not in closed:
                 new_cost = current.cost + COSTS[grid[neighbor_pos[0]][neighbor_pos[1]]]
@@ -138,6 +145,8 @@ def astar_manhattan(grid, start, end):
     
     return None, closed, set(), 0
 
+"""Same as above but uses an admissable euclidian heuristic
+"""
 def astar_euclidean(grid, start, end):
     start_node = Node(start, cost=0)
     open_queue = []

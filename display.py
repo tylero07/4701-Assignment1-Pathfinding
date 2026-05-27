@@ -47,6 +47,7 @@ def display(grid, closed, open_list, path, title=""):
     for (r, c) in path:
         plt.plot(c, r, 's', color='white', alpha=0.9, markersize=4)
     
+    # visible legend on map
     legend = [
     mpatches.Patch(color=[1.0, 0.9, 0.0], label='Road (1)'),
     mpatches.Patch(color=[0.5, 0.8, 0.3], label='Field (3)'),

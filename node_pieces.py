@@ -1,3 +1,8 @@
+"""First time creating nodes like this in python so claude was helpful
+    Enumerated Char values of text file for cost
+    each node carries position, parent, and cost
+    list is returned in reverse order which gives Start->End
+    uses index access to find neighbors relative to current node"""
 COSTS = {'R': 1, 'F': 3, 'O': 5, 'H': 8, 'M': 15, 'W': None, 'S': 3, 'E': 3}
 class Node:
 
